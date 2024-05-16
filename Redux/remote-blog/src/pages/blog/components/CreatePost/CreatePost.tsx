@@ -1,3 +1,4 @@
+import { unwrapResult } from '@reduxjs/toolkit'
 import { addPost, cancelEditingPost, updatePost } from 'pages/blog/blog.slice'
 import { Fragment, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -24,7 +25,7 @@ export default function CreatePost() {
   useEffect(() => {
     setFormData(editingPost || initialState)
   }, [editingPost])
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (editingPost) {
       dispatch(
@@ -34,17 +35,23 @@ export default function CreatePost() {
         })
       )
         .unwrap()
-        .then((res) => {
-          console.log(res)
+        .then(() => {
+          setFormData(initialState)
+          if (errorForm) {
+            setErrorForm(null)
+          }
         })
         .catch((error) => {
-          console.log('error from craete post', error)
+          setErrorForm(error.error)
         })
     } else {
-      const formDataWithId = { ...formData }
-      dispatch(addPost(formDataWithId))
+      try {
+        await dispatch(addPost(formData)).unwrap()
+        setFormData(initialState)
+      } catch (error: any) {
+        setErrorForm(error.error)
+      }
     }
-    setFormData(initialState)
   }
 
   const handleCancelEditingPost = () => {
@@ -121,6 +128,12 @@ export default function CreatePost() {
           value={formData.publishDate}
           onChange={(event) => setFormData((prev) => ({ ...prev, publishDate: event.target.value }))}
         />
+        {errorForm?.publishDate && (
+          <p className='mt-2 text-sm text-red-600'>
+            <span className='font-medium'>Lỗi!</span>
+            {errorForm.publishDate}
+          </p>
+        )}
       </div>
       <div className='mb-6 flex items-center'>
         <input
