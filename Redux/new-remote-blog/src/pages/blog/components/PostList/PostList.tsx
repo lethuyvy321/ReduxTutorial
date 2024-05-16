@@ -2,12 +2,18 @@ import { useGetPostsQuery } from 'pages/blog/blog.service'
 import PostItem from '../PostItem'
 import { Fragment } from 'react'
 import SkeletonPost from '../SkeletonPost'
+import { useDispatch } from 'react-redux'
+import { startEditPost } from 'pages/blog/blog.slice'
 
 export default function PostList() {
   const { data, isLoading, isFetching } = useGetPostsQuery()
-  console.log(data)
-  console.log(isLoading)
-  console.log(isFetching)
+  const dispatch =  useDispatch()
+  // console.log(data)
+  // console.log(isLoading)
+  // console.log(isFetching)
+  const startEdit = (id: string) => {
+    dispatch(startEditPost(id))
+  }
   return (
     <div className='bg-white py-6 sm:py-8 lg:py-12'>
       <div className='mx-auto max-w-screen-xl px-4 md:px-8'>
@@ -24,7 +30,7 @@ export default function PostList() {
               <SkeletonPost />
             </Fragment>
           )}
-          {!isFetching && data?.map((post) => <PostItem key={post.id} post={post} />)}
+          {!isFetching && data?.map((post) => <PostItem key={post.id} post={post} startEdit={startEdit}/>)}
         </div>
       </div>
     </div>

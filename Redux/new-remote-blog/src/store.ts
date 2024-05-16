@@ -6,7 +6,7 @@ import blogReducer from 'pages/blog/blog.slice'
 
 export const store = configureStore({
   reducer: {
-    blogs: blogReducer,
+    blog: blogReducer,
     [blogApi.reducerPath]: blogApi.reducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(blogApi.middleware)
