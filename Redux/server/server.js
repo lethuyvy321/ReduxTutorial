@@ -16,17 +16,24 @@ server.use((req, res, next) => {
       return res.status(422).send({
         error: {
           publishDate: "Không được publish vào thời điểm trong quá khứ",
-        },
-      });
+        }
+      })
+    }
+    if (req.body.title === 'admin'){
+      return res.status(500).send({
+        error: 'Server nhận được từ khóa ghi lỗi',
+      })
     }
   }
-  next();
-})
+  setTimeout(() => {
+    next();
+  }, 2000);
+});
 
 server.use(router);
 server.listen(4000, () => {
   console.log("Json server is running");
-})
+});
 
 // server.listen(4000, () => {
 //     console.log('Json server is running')
