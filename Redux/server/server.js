@@ -20,9 +20,7 @@ server.use((req, res, next) => {
       });
     }
   }
-  setTimeout(() => {
-    next();
-  }, 3000);
+  next();
 })
 
 server.use(router);
