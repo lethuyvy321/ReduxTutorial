@@ -4,7 +4,11 @@ import { RootState, useAppDispatch } from 'store'
 import { deletePost, getPostList, startEditingPost } from 'pages/blog/blog.slice'
 import { Fragment, useEffect } from 'react'
 import SkeletonPost from '../SkeletonPost'
+// Gọi API trong useEffect()
+// Nếu gọi thành công thì dispatch action type: "blog/getPostListSuccess"
+// Nếu gọi thất bại thì dispatch action type: "blog/getPostListFailed"
 
+// xxxxx: Dispatch action type "blog/getPostList"
 export default function PostList() {
   const postList = useSelector((state: RootState) => state.blog.postList)
   const loading = useSelector((state: RootState) => state.blog.loading)

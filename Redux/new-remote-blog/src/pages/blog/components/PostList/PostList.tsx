@@ -9,6 +9,9 @@ export default function PostList() {
   const { data, isLoading, isFetching } = useGetPostsQuery()
   const dispatch = useDispatch()
   const [deletePost] = useDeletePostMutation()
+  // isLoading chỉ dành cho lần fetch đầu tiên
+  // isFetching là cho mỗi lần gọi API
+
   // console.log(data)
   // console.log(isLoading)
   // console.log(isFetching)

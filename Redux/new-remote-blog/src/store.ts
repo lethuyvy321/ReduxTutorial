@@ -10,8 +10,10 @@ export const store = configureStore({
     blog: blogReducer,
     [blogApi.reducerPath]: blogApi.reducer
   },
+  // Thêm api middleware để enable các tính năng như caching, invalidation, polling của rtk-query
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(blogApi.middleware, rtkQueryErrorLogger)
 })
+// Optional, nhưng bắt buộc nếu dùng tính năng refetchOnFocus/refetchOnReconnect
 setupListeners(store.dispatch)
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>

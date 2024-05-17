@@ -27,6 +27,7 @@ export const finishEditingPost = createAction<Post>('blog/finishEditingPost')
 const blogReducer = createReducer(initalState, (builder) => {
   builder
     .addCase(addPost, (state, action) => {
+      // immerjs giúp chúng ta mutate 1 state an toàn
       const post = action.payload
       state.postList.push(post)
     })
@@ -49,6 +50,8 @@ const blogReducer = createReducer(initalState, (builder) => {
     })
     .addCase(finishEditingPost, (state, action) => {
       const postId = action.payload.id
+      // Phương thức some() được sử dụng để kiểm tra xem có phần tử nào trong
+      //mảng thỏa mãn một điều kiện nào đó hay không.
       state.postList.some((post, index) => {
         if (post.id === postId) {
           state.postList[index] = action.payload

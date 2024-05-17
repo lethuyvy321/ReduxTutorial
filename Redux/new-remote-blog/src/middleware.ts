@@ -21,6 +21,9 @@ export const rtkQueryErrorLogger: Middleware = (api: MiddlewareAPI) => (next) =>
    * RTK Query sử dụng createAsyncThunk bên trong nên chúng ta có thể dùng 'isRejectedWithValue' để
    * kiểm tra lỗi
    */
+  /**
+   * Trong thực tế không cần check isRejected
+   */
   if (isRejected(action)) {
     console.log(action)
     if (action.error.name === 'CustomError') {
